@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include<windows.h>
+#include <windows.h>
 using namespace std;
 int cash = 0;
 void menu();
@@ -10,7 +10,6 @@ class player
 {
 public:
     static string name;
-    int depositednow;
 
     void setname()
     {
@@ -24,6 +23,8 @@ public:
     }
     void deposit()
     {
+        int choice;
+        int depositednow;
         ofstream outf("textfile.txt", ios::app);
         cout << "\t|Enter amount to deposit  ";
         cin >> depositednow;
@@ -33,8 +34,40 @@ public:
         cout << "\t| Successfully Deposited $" << depositednow << "\t" << endl
              << endl;
         outf << "-->\tDeposited +$" << depositednow << "\t" << endl;
+        cout << "\tENTER 1 TO RETURN TO MENU" << endl;
+        cin >> choice;
+        if (choice == 1)
+            menu();
 
         outf.close();
+    }
+    void withdraw()
+    {
+        int amt;
+        int choice;
+        cout << "\tENTER THE AMOUNT TO WITHDRAW  ";
+        cin >> amt;
+        if (cash >= amt)
+        {
+            cash -= amt;
+
+            cout << "\tVERIFYING YOUR TANSACTION..." << endl;
+            Sleep(2000);
+            cout << "\tSUCCESSFULLY WITHDRAWN $" << amt << endl;
+            ofstream outf("textfile.txt", ios::app);
+            outf << "-->\tWITHDRAWN -$" << amt << "\t" << endl;
+            outf.close();
+            cout << "\tENTER 1 TO RETURN TO MENU" << endl;
+            cin >> choice;
+            if (choice == 1)
+                menu();
+        }
+        else
+        {
+            cout << "\tINSUFFICIENT FUNDS" << endl;
+            Sleep(2000);
+            menu();
+        }
     }
 };
 string player::name;
@@ -48,20 +81,19 @@ public:
         cout << "\t\t     *BLUE OR RED* \n"
              << endl;
         cout << "\t***************RULES**************" << endl;
-        cout << "\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|" << endl;
-        cout << "\t|CHOOSE WHERE WILL THE BALL LAND |" << endl;
-        cout << "\t|IF YOU WIN YOU WILL GET 2X      |" << endl;
-        cout << "\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|" << endl;
+        cout << "\t|-------------------------------|" << endl;
+        cout << "\t|GUESS WHERE WILL THE BALL LAND |" << endl;
+        cout << "\t|IF YOU WIN YOU WILL GET 2X     |" << endl;
+        cout << "\t|-------------------------------|" << endl;
     }
     void play()
     {
 
-       
         cout << "Enter Stake: ";
         cin >> stake;
         if (cash >= stake)
         {
-             cash-=stake;
+            cash -= stake;
             int choice, predict;
             cout << "\t\t               *BLUE OR RED* \n"
                  << endl;
@@ -84,14 +116,19 @@ public:
                 cout << " YOU LOST" << endl;
             }
         }
-        else{
-            cout << "\t\tINDUFFICIENT FUNDS" << endl;
-        cout << "\t\tDEPOSIT MONEY" << endl;
+        else
+        {
+            char choice;
+            cout << "\t\tINDUFFICIENT FUNDS\n"
+                 << endl;
+            cout << "\t\tDO YOU WANT TO DEPOSIT MONEY?Y OR N" << endl;
+            cin >> choice;
+            if ((char)toupper(choice) == 'Y')
+                menu();
         }
     }
-    
 };
-class Dice : public player
+class Dice
 {
 public:
     int stake = 0;
@@ -104,20 +141,19 @@ public:
         cout << "\t|-----------------------------------------|" << endl;
         cout << "\t|TWO DICES WILL BE ROLLED                 |" << endl;
         cout << "\t|GUESS THE SUM WILL BE UNDER 7 OR OVER 7  |" << endl;
-        cout <<"\t|CORRECT GUESS -> 2X                       | "<<endl;
+        cout << "\t|CORRECT GUESS -> 2X                      | " << endl;
         cout << "\t|-----------------------------------------|" << endl;
     }
     void play()
     {
 
-        
         cout << "Enter Stake: ";
         cin >> stake;
         if (cash >= stake)
         {
-             cash-=stake;
+            cash -= stake;
             int choice, predict;
-            cout << "\t*DICE* \n"
+            cout << "\t   *DICE* "
                  << endl;
             cout << "\t 1. UNDER 7" << endl;
             cout << "\t 2. OVER 7" << endl;
@@ -138,14 +174,19 @@ public:
                 cout << " YOU LOST" << endl;
             }
         }
-        else{
-            cout << "\t\tINDUFFICIENT FUNDS" << endl;
-        cout << "\t\tDEPOSIT MONEY" << endl;
+        else
+        {
+            char choice;
+            cout << "\t\tINDUFFICIENT FUNDS\n"
+                 << endl;
+            cout << "\t\t DO YOU WANT TO DEPOSIT MONEY?Y OR N" << endl;
+            cin >> choice;
+            if ((char)toupper(choice) == 'Y')
+                menu();
         }
     }
-    
 };
-class Transaction : public player // Multiple Inheritance of some other classes to Chargers
+class Transaction : public player
 {
 
 public:
@@ -154,7 +195,7 @@ public:
     void printtemp()
     {
         timess++;
-        ofstream outf("textfile.txt"); // receipt for bought items
+        ofstream outf("textfile.txt");
         {
             outf << "------------CASINO---------" << endl;
             outf << "---------TRANSACTION HISTORY------" << endl;
@@ -167,6 +208,7 @@ public:
 
     void show()
     {
+        int choice;
         ifstream inf("textfile.txt");
         {
             if (!inf)
@@ -175,15 +217,21 @@ public:
             }
             while (getline(inf, line))
             {
-                cout << line << endl; // Print each line
+                cout << line << endl;
             }
         }
         inf.close();
+        cout << "\tENTER 1 TO RETURN TO MENU" << endl;
+        cin >> choice;
+        if (choice == 1)
+            menu();
     }
     void print()
     {
+
         ofstream outf("textfile.txt", ios::app);
-        outf << "\t\t\t\tBALANCE $" << cash << endl<<endl;
+        outf << "\t\t\t\tBALANCE $" << cash << endl
+             << endl;
         outf.close();
     }
 };
@@ -199,9 +247,9 @@ void menu()
     {
         t1.printtemp();
     }
-    
+
     cout << "\t------------------------------------------" << endl;
-     cout << "\t\t        *CASINO *"<<endl;
+    cout << "\t\t        *CASINO *" << endl;
 
     cout << "\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " << endl;
     cout << "\t|\t\t\t\t\t|" << endl;
@@ -221,8 +269,6 @@ void menu()
     case 1:
 
         a1.deposit();
-        Sleep(2000);
-        menu();
         break;
 
     case 2:
@@ -240,7 +286,7 @@ void menu()
         {
             d1.rules();
             d1.play();
-            cout << "Do you wanna play again?  ";
+            cout << "Do you wanna play again? Y or N  ";
             cin >> play_again;
         } while ((char)toupper(play_again) == 'Y');
         menu();
@@ -260,33 +306,13 @@ void menu()
         break;
 
     case 5:
-        int amt;
-        cout << "\tENTER THE AMOUNT TO WITHDRAW  ";
-        cin >> amt;
-        if (cash >= amt)
-        {
-            cash -= amt;
+        a1.withdraw();
+        break;
 
-            cout << "\tVERIFYING YOUR TANSACTION..." << endl;
-            Sleep(2000);
-            cout << "\tSUCCESSFULLY WITHDRAWN $" << amt << endl;
-            ofstream outf("textfile.txt", ios::app);
-            outf << "-->\tWITHDRAWN -$" << amt << "\t" << endl;
-            outf.close();
-            Sleep(2000);
-            menu();
-        }
-        else
-        {
-            cout << "\tINSUFFICIENT FUNDS" << endl;
-            Sleep(2000);
-            menu();
-        }
     default:
         cout << "\n\n\t\t--GOOD-BYE!--" << endl;
         Sleep(2000);
-    
-    
+
         exit(0);
     }
 }
