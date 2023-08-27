@@ -2,8 +2,6 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include <thread>
-#include <chrono>
 #include<windows.h>
 using namespace std;
 int cash = 0;
