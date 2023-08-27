@@ -47,9 +47,9 @@ public:
 
     void rules()
     {
-        cout << "\t\t               *BLUE OR RED* \n"
+        cout << "\t\t     *BLUE OR RED* \n"
              << endl;
-        cout << "**********************RULES*********************" << endl;
+        cout << "\t***************RULES**************" << endl;
         cout << "\t|_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _|" << endl;
         cout << "\t|CHOOSE WHERE WILL THE BALL LAND |" << endl;
         cout << "\t|IF YOU WIN YOU WILL GET 2X      |" << endl;
@@ -58,7 +58,7 @@ public:
     void play()
     {
 
-        cout << "Minimum stake: $20" << endl;
+       
         cout << "Enter Stake: ";
         cin >> stake;
         if (cash >= stake)
@@ -112,7 +112,7 @@ public:
     void play()
     {
 
-        cout << "Minimum stake: $20" << endl;
+        
         cout << "Enter Stake: ";
         cin >> stake;
         if (cash >= stake)
@@ -158,7 +158,7 @@ public:
         timess++;
         ofstream outf("textfile.txt"); // receipt for bought items
         {
-            outf << "------------VEGAS CASINO---------" << endl;
+            outf << "------------CASINO---------" << endl;
             outf << "---------TRANSACTION HISTORY------" << endl;
             outf << "_________________________________" << endl;
             outf << "\t\tName: " << player::name << endl
@@ -203,7 +203,7 @@ void menu()
     }
     
     cout << "\t------------------------------------------" << endl;
-     cout << "\t\t      * VEGAS CASINO *"<<endl;
+     cout << "\t\t        *CASINO *"<<endl;
 
     cout << "\t _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ " << endl;
     cout << "\t|\t\t\t\t\t|" << endl;
@@ -232,7 +232,7 @@ void menu()
         {
             a1.rules();
             a1.play();
-            cout << "Do you wanna play again?  ";
+            cout << "Do you wanna play again? Y or N ";
             cin >> play_again;
         } while ((char)toupper(play_again) == 'Y');
         menu();
